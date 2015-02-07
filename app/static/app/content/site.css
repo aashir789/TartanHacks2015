@@ -1,6 +1,9 @@
 ﻿body {
+    background:url("hack-wall.jpg") ;
+    background-size: 100% 300%;
     padding-top: 50px;
     padding-bottom: 20px;
+    
 }
 
 /* Set padding to keep content from hitting the edges */
