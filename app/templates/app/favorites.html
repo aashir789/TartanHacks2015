@@ -9,12 +9,14 @@
   <center>
     <u><h3 >Favorites</h3></u>
     
-     <!-- Button trigger modal -->
-    <ul class="panel list-group">
+
+    <ul class="list-group">
           {% for entry in favorites %}
           <form action="/retrieve" method="post" class="form-horizontal">
             {% csrf_token %}
- 	<li class="list-group-item small"><button class="btn btn-default btn" type="submit">{{entry.name}}</button></li>
+ 	<li class="list-group-item list-group-item-info"><button class="btn btn-default btn " type="submit">{{entry.name}}</button>
+	  <span> <a href="/delete_item/{{entry.id}}" class="btn btn-danger btn-sms " type="button">Delete</a></span>
+	</li>
             <input type="hidden" name="Bus" value="{{entry.Bus}}"></input>
             <input type="hidden" name="Direction" value="{{entry.Direction}}"></input>
             <input type="hidden" name="stopname" value="{{entry.stopname}}"></input>

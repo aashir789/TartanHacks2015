@@ -79,7 +79,35 @@
     {% endif %}
     {% endif %}
     <br/>
-    <p>
+
+    {% if favorites   %}
+    {% if user.is_authenticated %}    
+    {% if not realtimedata   %}
+    <center>
+      <u><h3 >Favorites</h3></u>
+      
+      
+      <ul class="panel list-group">
+        {% for entry in favorites %}
+        <form action="/retrieve" method="post" class="form-horizontal">
+          {% csrf_token %}
+ 	  <li class="list-group-item small"><button class="btn btn-default btn" type="submit">{{entry.name}}</button></li>
+          <input type="hidden" name="Bus" value="{{entry.Bus}}"></input>
+          <input type="hidden" name="Direction" value="{{entry.Direction}}"></input>
+          <input type="hidden" name="stopname" value="{{entry.stopname}}"></input>
+        </form>
+	{% endfor %}
+</div>
+
+<br/>
+
+</ul>
+</center>
+
+{% endif  %}
+{% endif  %}
+{% endif  %}
+<p>
       
       {% for bus in realtimedata %}
       <li class="list-group-item small">  {{bus.rt}} to {{bus.des}} in {{bus.prdtm}} minutes</li>

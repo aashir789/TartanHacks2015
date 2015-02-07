@@ -23,6 +23,9 @@ def home(request):
     context['Bus'] = 'Bus'
     context['Direction'] = 'Direction'
     context['Stopname'] = 'Stop'
+    if request.user.is_authenticated():
+        fav_items = Item.objects.filter(user=request.user)
+        context['favorites'] = fav_items
     if not 'buslist' in request.GET and not 'direction' in request.GET:
         buslist = {
             '1 Freeport Road',
@@ -351,9 +354,9 @@ def add_favorite(request):
 
 @login_required(login_url='/login')
 @transaction.atomic
-def delete_favorite(request, id):
+def delete_item(request, id):
     errors = []
-
+    context={}
     # Deletes item if the logged-in user has an item matching the id
     try:
         item_to_delete = Item.objects.get(id=id, user=request.user)
@@ -361,7 +364,9 @@ def delete_favorite(request, id):
     except ObjectDoesNotExist:
         errors.append('The item did not exist in your todo list.')
 
-    context = {'errors' : errors}
+    context['errors'] = errors
+    items = Item.objects.filter(user=request.user)
+    context['favorites']=items
     return render(request, 'app/favorites.html', context)
 
 def register(request):
