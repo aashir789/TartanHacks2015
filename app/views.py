@@ -98,3 +98,7 @@ def register(request):
     login(request,new_user)
 
     return redirect('/about')
+
+def fav_link(request):
+    print 'entered here'
+    return redirect('/#')

@@ -24,7 +24,8 @@ urlpatterns = patterns('',
             'next_page': '/',
         },
         name='logout'),
-
+                       
+    url(r'^fav', 'app.views.fav_link', name='fav_link'),
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
