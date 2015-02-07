@@ -1,0 +1,9 @@
+{% if validated %}
+
+{% else %}
+
+<ul class="nav navbar-nav navbar-right">
+    <li><a href="{% url 'register' %}">Register</a></li>
+</ul>
+
+{% endif %}
