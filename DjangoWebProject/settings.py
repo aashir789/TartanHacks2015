@@ -117,7 +117,7 @@ AUTHENTICATION_BACKENDS = (
         'django.contrib.auth.backends.ModelBackend',
     )
 
-LOGIN_REDIRECT_URL = 'about'
+LOGIN_REDIRECT_URL = 'favorites'
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'DjangoWebProject.wsgi.application'

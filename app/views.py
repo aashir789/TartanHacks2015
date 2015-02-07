@@ -23,9 +23,6 @@ def home(request):
     context['Bus'] = 'Bus'
     context['Direction'] = 'Direction'
     context['Stopname'] = 'Stop'
-    if request.user.is_authenticated():
-        items = Item.objects.filter(user=request.user)
-        return render(request,'app/index.html',{'items' : items})
     if not 'buslist' in request.GET and not 'direction' in request.GET:
         buslist = {
             '1 Freeport Road',
@@ -176,7 +173,7 @@ def favorites(request):
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
     items = Item.objects.filter(user=request.user)
-    return render(request, 'app/favorites.html', {'items' : items})
+    return render(request, 'app/favorites.html', {'favorites' : items})
 
 @login_required(login_url='/login')
 def retrieve_favorite(request, id):
@@ -195,6 +192,7 @@ def retrieve(request):
     context={}
     direction = request.POST['Direction']
     url = "http://realtime.portauthority.org/bustime/api/v2/getstops?key=AGqwpJtVsFgmULpgWHdH3vMdZ&format=json&rt=" + busnumonly + "&dir=" + direction  
+    print url
     r = urllib2.urlopen(url).read()
     data = json.loads(r)
     stopdata = data['bustime-response']['stops']
@@ -210,6 +208,7 @@ def retrieve(request):
         context['Bus'] = busnum
         context['Direction'] = direction
         context['Stopname'] = stopname
+        context['stpid'] = stid
         realtimedata = data['bustime-response']['prd']
         for entry in realtimedata:
             time_yo= entry['prdtm']
@@ -341,12 +340,13 @@ def add_favorite(request):
     # if not 'item' in request.POST or not request.POST['item']:
     #   errors.append('You havent selected anything to add.')
     # else:
-    name = request.GET['name']
-    stid = request.GET['stid']
+    context={}
+    name = request.POST['favname']
+    stid = request.POST['stid']
     url = "http://realtime.portauthority.org/bustime/api/v2/getpredictions?key=AGqwpJtVsFgmULpgWHdH3vMdZ&format=json&stpid=" + stid 
-    new_item = Item(name=name, url=url, user=request.user)
+    new_item = Item(name=name, Bus=request.POST['Bus'], Direction=request.POST['Direction'],stopname=request.POST['stopname'],url=url, user=request.user)
     new_item.save()
-    return render(request, 'app/favorites.html', context)
+    return redirect('home')
     
 
 @login_required(login_url='/login')
