@@ -13,7 +13,15 @@ def home(request):
     """Renders the home page."""
     assert isinstance(request, HttpRequest)
     if request.user.is_authenticated():
-        redirect('about')
+        return render(
+        request,
+        'app/about.html',
+        context_instance = RequestContext(request,
+        {
+            'title':'About',
+            'message':'Your application description page.',
+            'year':datetime.now().year,
+        }))
     return render(
         request,
         'app/index.html',
@@ -84,4 +92,9 @@ def register(request):
                                         password=request.POST['password'])
     new_user.save()
 
-    return redirect('/login')
+    new_user = authenticate(username=request.POST['username'], \
+                            password=request.POST['password'])
+
+    login(request,new_user)
+
+    return redirect('/about')
