@@ -199,31 +199,28 @@ def retrieve(request):
     data = json.loads(r)
     stopdata = data['bustime-response']['stops']
     stopname = request.POST['stopname']
-    stid = 0
+    stid = ""
     for stop in stopdata:
         if stop['stpnm'] == stopname:
             stid = stop['stpid']
-    url = "http://realtime.portauthority.org/bustime/api/v2/getpredictions?key=AGqwpJtVsFgmULpgWHdH3vMdZ&format=json&stpid=" + stid
-    r = urllib2.urlopen(url).read()
-    data = json.loads(r)
-    context['Bus'] = busnum
-    context['Direction'] = direction
-    context['Stopname'] = stopname
-
     try:
-        print data
+        url = "http://realtime.portauthority.org/bustime/api/v2/getpredictions?key=AGqwpJtVsFgmULpgWHdH3vMdZ&format=json&stpid=" + stid
+        r = urllib2.urlopen(url).read()
+        data = json.loads(r)
+        context['Bus'] = busnum
+        context['Direction'] = direction
+        context['Stopname'] = stopname
         realtimedata = data['bustime-response']['prd']
         for entry in realtimedata:
-            print entry
             time_yo= entry['prdtm']
-            print time_yo
             time_entr = time_yo.split(' ')[1]
-            print time_entr
             dt = time.strptime(time_entr, "%H:%M")
             dt_now = datetime.now().timetuple()
 
             entry['prdtm'] = ((((dt.tm_min*60) + (dt.tm_hour*3600)) - ((dt_now.tm_min*60) + (dt_now.tm_hour*3600))) / 60) + 300
+        
         context['realtimedata'] = realtimedata 
+    
     except Exception as e:
         print "Exception"
         print str(e)
