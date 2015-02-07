@@ -30,6 +30,11 @@
                 </div>
                 
             </form>
+            {% for error in errors %}
+        <p style="color: red">
+            {{ error }}
+        </p>
+    {% endfor %}
         </section>
     </div>
     <div class="col-md-4">
