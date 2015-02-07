@@ -45,6 +45,7 @@ input[type="checkbox"].input-validation-error {
     text-align:center;
 }
 
-.form-control{
+.form-control,.form-inline{
     text-align:center;
+ 
 }
