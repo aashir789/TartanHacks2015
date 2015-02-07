@@ -1,12 +1,25 @@
 """
 Definition of views.
 """
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+
+
+
+from django.shortcuts import render,redirect
+
 from django.http import HttpRequest
 from django.template import RequestContext
 from datetime import datetime
 
+
+
+
+from django.contrib.auth.decorators import login_required
+
+from django.contrib.auth import login, authenticate
+
+from app.models import *
+
+@login_required(login_url='/login')
 
 def home(request):
     """Renders the home page."""
@@ -50,3 +63,54 @@ def about(request):
             'year':datetime.now().year,
         })
     )
+
+def login_page(request):
+    if request.method == 'GET':
+        return render(request, 'app/login.html', {})
+
+    context = {}
+
+    new_user = authenticate(username=request.POST['username'], \
+                            password=request.POST['password'])
+
+    if new_user is not None:
+        context['validated'] = "Yes"
+        return render(request, 'app/index.html', context)
+
+    context['errors'] = "Invalid"
+
+    return render(request, 'app/login.html', context)
+
+
+def register(request):
+    context = {}
+
+    # Just display the registration form if this is a GET request
+    if request.method == 'GET':
+        return render(request, 'app/register.html', context)
+
+    errors = []
+    context['errors'] = errors
+
+    # Checks the validity of the form data
+    if not 'username' in request.POST or not request.POST['username']:
+        errors.append('Username is required.')
+    else:
+        # Save the username in the request context to re-fill the username
+        # field in case the form has errrors
+        context['username'] = request.POST['username']
+
+    if len(User.objects.filter(username = request.POST['username'])) > 0:
+        errors.append('Username is already taken.')
+
+    if errors:
+        return render(request, 'app/register.html', context)
+
+    print request.POST['password']
+    # Creates the new user from the valid form data
+    new_user = User.objects.create_user(username=request.POST['username'], \
+                                        password=request.POST['password'])
+    new_user.save()
+
+    print "new user created"
+    return redirect('/')
