@@ -82,4 +82,4 @@ def register(request):
                                         password=request.POST['password'])
     new_user.save()
 
-    return redirect('/')
+    return redirect('/login')
