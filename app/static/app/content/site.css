@@ -44,3 +44,7 @@ input[type="checkbox"].input-validation-error {
 .span12{
     text-align:center;
 }
+
+.form-control{
+    text-align:center;
+}
