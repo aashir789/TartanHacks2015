@@ -1,26 +1,15 @@
 """
 Definition of views.
 """
-
-
-
 from django.shortcuts import render,redirect
-
 from django.http import HttpRequest
 from django.template import RequestContext
 from datetime import datetime
-
-
-
-
 from django.contrib.auth.decorators import login_required
-
 from django.contrib.auth import login, authenticate
-
 from app.models import *
 
 @login_required(login_url='/login')
-
 def home(request):
     """Renders the home page."""
     assert isinstance(request, HttpRequest)
