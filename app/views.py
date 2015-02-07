@@ -222,7 +222,7 @@ def retrieve(request):
             dt = time.strptime(time_entr, "%H:%M")
             dt_now = datetime.now().timetuple()
 
-            entry['prdtm'] = ((((dt.tm_min*60) + (dt.tm_hour*3600)) - ((dt_now.tm_min*60) + (dt_now.tm_hour*3600))) / 60) - 60
+            entry['prdtm'] = ((((dt.tm_min*60) + (dt.tm_hour*3600)) - ((dt_now.tm_min*60) + (dt_now.tm_hour*3600))) / 60) + 300
         context['realtimedata'] = realtimedata 
     except Exception as e:
         print "Exception"
