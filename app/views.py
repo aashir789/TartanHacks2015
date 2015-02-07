@@ -12,6 +12,8 @@ from app.models import *
 def home(request):
     """Renders the home page."""
     assert isinstance(request, HttpRequest)
+    if request.user.is_authenticated():
+        redirect('about')
     return render(
         request,
         'app/index.html',
