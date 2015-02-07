@@ -1,11 +1,12 @@
 """
 Definition of views.
 """
-
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import HttpRequest
 from django.template import RequestContext
 from datetime import datetime
+
 
 def home(request):
     """Renders the home page."""
@@ -20,6 +21,7 @@ def home(request):
         })
     )
 
+
 def contact(request):
     """Renders the contact page."""
     assert isinstance(request, HttpRequest)
@@ -33,6 +35,7 @@ def contact(request):
             'year':datetime.now().year,
         })
     )
+
 
 def about(request):
     """Renders the about page."""
