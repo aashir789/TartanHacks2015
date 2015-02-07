@@ -4,38 +4,39 @@
 <br/>
 
   
-  <form action="/contact" method="post">
+  <form action="profile" method="post">
+    {% csrf_token %}
     <div class="row">
       <div class="col-xs-12 col-md-4">
-	<select class="form-control" id="sel1"  onchange="this.form.submit()">
-	  <option selected="selected" disabled>Bus</option>
-          <option val="1">1</option>
-	  <option val="2">2</option>
-          <option val="4">3</option>
-          <option val="4">4</option>
+	<select name="busnum" class="form-control" id="sel1" >
+	  <option selected="selected" disabled>{{Bus}}</option>
+          {% for entry in buslist %}
+          <option val="{{entry}}">{{entry}} </option>
+          {% endfor %}
 	</select>
       </div>
 
     <div class="col-xs-12 col-md-4">
-      <select class="form-control" id="sel2" onchange="this.form.submit()">
-	<option selected="selected" disabled>Direction</option>
-        <option val="1">1</option>
-        <option val="2">2</option>
-        <option val="3">3</option>
-        <option val="4">4</option>
+      <select name="direction" class="form-control" id="sel2" onchange="this.form.submit()">
+	    <option selected="selected" disabled>{{Direction}}</option>
+        {% for entry in direction %}
+          <option val="{{entry}}">{{entry}} </option>
+          {% endfor %}
       </select>
     </div>
   </form>
   
-  <form action="/contact" method="post">
+  <form action="/retrieve" method="post">
+    {% csrf_token %}
     <div class="col-xs-12 col-md-4">
-      <select class="form-control" id="sel3"  onchange="this.form.submit()">
-	<option selected="selected" disabled>Stop</option>
-        <option class="">1</option>
-        <option class="">2</option>
-        <option class="">3</option>
-        <option class="">4</option>
+      <select name="stopname" class="form-control" id="sel3"  onchange="this.form.submit()">
+	<option selected="selected" disabled>{{Stopname}}</option>
+        {% for entry in stopdata %}
+          <option val="{{entry}}">{{entry.stpnm}} </option>
+          {% endfor %}
       </select>
+          <input type="hidden" name="Bus" value="{{Bus}}" />
+          <input type="hidden" name="Direction" value="{{Direction}}" />
     </div>
   </form>  
   
@@ -44,7 +45,7 @@
 <p>
  <center>
     {% for bus in realtimedata %}
-        <li class="list-group-item small">  {{bus.rt}} {{bus.des}} {{bus.prtdm}} </li>
+        <li class="list-group-item small">  {{bus.rt}} {{bus.des}} {{bus.prdtm}} </li>
     {% endfor %}
  <center>
 </p>
