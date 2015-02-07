@@ -94,7 +94,7 @@ def home(request):
             '53L    Homestead Park Limited',
             '61A    North Braddock',
             '61B    Braddock - Swissvale',
-            '61C    McKeesport - Homestead'
+            '61C    McKeesport - Homestead',
             '61D    Murray',
             '71A    Negley',
             '71B    Highland Park',
