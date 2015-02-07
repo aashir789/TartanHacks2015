@@ -11,7 +11,7 @@ from django.contrib.auth import login, authenticate
 from app.models import *
 from django.db import transaction
 
-import requests
+
 import urllib2
 import json
 import time
