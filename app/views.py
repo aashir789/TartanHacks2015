@@ -55,24 +55,6 @@ def about(request):
         })
     )
 
-def login_page(request):
-    if request.method == 'GET':
-        return render(request, 'app/login.html', {})
-
-    context = {}
-
-    new_user = authenticate(username=request.POST['username'], \
-                            password=request.POST['password'])
-
-    if new_user is not None:
-        context['validated'] = "Yes"
-        return render(request, 'app/index.html', context)
-
-    context['errors'] = "Invalid"
-
-    return render(request, 'app/login.html', context)
-
-
 def register(request):
     context = {}
 
@@ -103,5 +85,4 @@ def register(request):
                                         password=request.POST['password'])
     new_user.save()
 
-    print "new user created"
     return redirect('/')
