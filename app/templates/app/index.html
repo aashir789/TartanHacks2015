@@ -74,12 +74,11 @@
     <p>
       
       {% for bus in realtimedata %}
-      <li class="list-group-item small">  {{bus.rt}} {{bus.des}} {{bus.prdtm}} </li>
+      <li class="list-group-item small">  {{bus.rt}} to {{bus.des}} in {{bus.prdtm}} minutes</li>
       {% endfor %}
     
     </p>
   </center>
->>>>>>> 12f85b54c8bbcc17a571642aa8d6434c44558290
 
 {% endblock %}
   
