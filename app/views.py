@@ -211,12 +211,22 @@ def retrieve(request):
     context['Stopname'] = stopname
 
     try:
+        print data
         realtimedata = data['bustime-response']['prd']
         for entry in realtimedata:
-            entry['prdtm'] = 13
+            print entry
+            time_yo= entry['prdtm']
+            print time_yo
+            time_entr = time_yo.split(' ')[1]
+            print time_entr
+            dt = time.strptime(time_entr, "%H:%M")
+            dt_now = datetime.now().timetuple()
+
+            entry['prdtm'] = ((((dt.tm_min*60) + (dt.tm_hour*3600)) - ((dt_now.tm_min*60) + (dt_now.tm_hour*3600))) / 60) - 60
         context['realtimedata'] = realtimedata 
-    except:
+    except Exception as e:
         print "Exception"
+        print str(e)
         return redirect('home') 
     
     buslist = {
