@@ -9,7 +9,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from app.models import *
 
-@login_required(login_url='/login')
 def home(request):
     """Renders the home page."""
     assert isinstance(request, HttpRequest)
@@ -38,7 +37,7 @@ def contact(request):
         })
     )
 
-
+@login_required(login_url='/login')
 def about(request):
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
@@ -52,24 +51,6 @@ def about(request):
             'year':datetime.now().year,
         })
     )
-
-def login_page(request):
-    if request.method == 'GET':
-        return render(request, 'app/login.html', {})
-
-    context = {}
-
-    new_user = authenticate(username=request.POST['username'], \
-                            password=request.POST['password'])
-
-    if new_user is not None:
-        context['validated'] = "Yes"
-        return render(request, 'app/index.html', context)
-
-    context['errors'] = "Invalid"
-
-    return render(request, 'app/login.html', context)
-
 
 def register(request):
     context = {}
@@ -101,5 +82,4 @@ def register(request):
                                         password=request.POST['password'])
     new_user.save()
 
-    print "new user created"
     return redirect('/')
